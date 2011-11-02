@@ -35,7 +35,7 @@ module Apartment
           rescue Exception => e
             Rails.logger.error "  Stopped request due to: #{e.message}"
             Apartment::Database.reset
-            ahh_no
+            ahh_no and return
           end
 
           #continue on to rails
