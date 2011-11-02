@@ -18,7 +18,7 @@ ActionView::Template.class_eval do
   # forces combination per subdomain
   #
   def method_name
-    "#{ENV['RAILS_CACHE_ID']}_#{rails_method_name}"
+    "#{ENV['RAILS_CACHE_ID'].gsub('-','_')}_#{rails_method_name}"
   end
 end
 
