@@ -31,7 +31,7 @@ module Apartment
             Spree::MailSettings.init
 
             #reset Theme
-            Spraycan::Engine.initialize_themes
+            #Spraycan::Engine.initialize_themes
           rescue Exception => e
             Rails.logger.error "  Stopped request due to: #{e.message}"
             Apartment::Database.reset

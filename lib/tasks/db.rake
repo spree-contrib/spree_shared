@@ -29,39 +29,6 @@ namespace :spree_shared do
         store_name = db_name.humanize.titleize
         Spree::Config.set :site_name => store_name
 
-        t = Spraycan::Theme.create(:name => 'Default Theme', :active => true)
-        t.view_overrides.create(:name => 'add_to_products_list_item', :virtual_path => 'shared/_products',
-                                :replace_with => 'text', :target => 'insert_top',
-                                :selector => "[data-hook='products_list_item'], #products_list_item[data-hook]",
-                                :replacement => "<b>#{store_name}</b><br>")
-
-
-        t.view_overrides.create(:name => 'before_products', :virtual_path => 'shared/_products',
-                                :replace_with => 'text', :target => 'insert_before',
-                                :selector => "[data-hook='products'], #products[data-hook]",
-                                :replacement => "<h2>#{store_name} is awesome!</h2>")
-
-        t.view_overrides.create(:name => 'before_taxonomies', :virtual_path => 'shared/_taxonomies',
-                                :replace_with => 'text', :target => 'insert_before',
-                                :selector => "[data-hook='taxonomies'], #taxonomies[data-hook]",
-                                :replacement => "<p>#{store_name} for the best prices!</p>")
-
-        t.view_overrides.create(:name => 'after_home-link', :virtual_path => 'shared/_store_menu',
-                                :replace_with => 'text', :target => 'insert_after',
-                                :selector => "[data-hook='home-link'], #home-link[data-hook]",
-                                :replacement => "<li><a href='#'>#{store_name}</a></li>")
-
-        t.view_overrides.create(:name => 'replace_logo', :virtual_path => 'layouts/spree_application',
-                                :replace_with => 'text', :target => 'replace_contents',
-                                :selector => "[data-hook='logo'], #logo[data-hook]",
-                                :replacement => "<h1 style='color:red;'>#{store_name}</h1>")
-
-        t.view_overrides.create(:name => 'add_to_footer', :virtual_path => 'layouts/spree_application',
-                                :replace_with => 'text', :target => 'insert_bottom',
-                                :selector => "[data-hook='footer'], #footer[data-hook]",
-                                :replacement => "<p>Please call again to #{store_name}</p>")
-
-
 
         #Need to manually create admin as it's not created by default in production mode
         if Rails.env.production?
@@ -78,6 +45,8 @@ namespace :spree_shared do
             admin.save
           end
         end
+
+        puts "Bootstrap completed successfully"
 
       end
     end
