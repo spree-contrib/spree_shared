@@ -34,17 +34,19 @@ module Apartment
             #Spraycan::Engine.initialize_themes
           rescue Exception => e
             Rails.logger.error "  Stopped request due to: #{e.message}"
-            Apartment::Database.reset
-            ahh_no and return
+
+            #fallback
+            ENV['RAILS_CACHE_ID'] = ""
+            Apartment::Database.current_database = nil
+            ActiveRecord::Base.establish_connection
+            return ahh_no
           end
 
           #continue on to rails
           @app.call(env)
-
         else
           ahh_no
         end
-
       end
 
       def subdomain(request)
@@ -52,7 +54,7 @@ module Apartment
       end
 
       def ahh_no
-         [200, {"Content-type" => "text/html"}, "Ahh No."]
+        [200, {"Content-type" => "text/html"}, "Ahh No."]
       end
 
     end
