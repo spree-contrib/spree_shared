@@ -22,16 +22,18 @@ module Apartment
             Rails.logger.error "  Using database '#{database}'"
 
             #set image location
-            Image.change_paths database
+            Spree::Image.change_paths database
 
             #namespace cache keys
             ENV['RAILS_CACHE_ID']= database
 
             #reset Mail settings
-            Spree::MailSettings.init
+            Spree::Core::MailSettings.init
 
-            #reset Theme
-            #Spraycan::Engine.initialize_themes
+            #load the theme overrides from the database on each request
+            #this is required in case the are changed on another worker / process
+            #could be optimized?
+            Spraycan::Engine.initialize_themes
           rescue Exception => e
             Rails.logger.error "  Stopped request due to: #{e.message}"
 

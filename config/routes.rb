@@ -1,3 +1,3 @@
-Rails.application.routes.draw do
-  # Add your extension routes here
+Spraycan::Engine.routes.prepend do
+  match '/:id/compiled/:digest.:action', :controller => :compiler
 end
