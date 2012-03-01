@@ -13,6 +13,7 @@ namespace :spree_shared do
 
       #seed and sample it
       puts "Loading seed & sample data into database: #{db_name}"
+      ENV['RAILS_CACHE_ID'] = db_name 
       Apartment::Database.process(db_name) do
         Spree::Image.change_paths db_name
 
@@ -28,22 +29,10 @@ namespace :spree_shared do
         #activate default themes
         Spraycan::Theme.all.map(&:applies_to).uniq.compact.each do |a|
           t = Spraycan::Theme.where(:name => 'Default', :applies_to => a).first
+          next unless t
           t.active = true
           t.save
         end
-
-        #get base theme and enable
-        base = Spraycan::Theme.where(:guid => "5c8dcab1-8b69-f9da-16c7-2fdc0bca8bff").first
-        base.update_attribute(:active, true)
-
-        #create and enable store theme
-        store_theme = Spraycan::Theme.create(:name => 'Store Specific Theme', :active => true)
-
-        #store theme is the preferred_base_theme as it will house any images, js, css added for a store.
-        Spraycan::Config.preferred_base_theme_id = store_theme.id
-
-        #create default Palettes
-        Spraycan::Palette.create :name => "Default", :active => true
 
         Spree::MailMethod.create(:environment => "production", :active => false)
         pm = Spree::PaymentMethod.create(:name => "Credit Card", :environment => "production")
