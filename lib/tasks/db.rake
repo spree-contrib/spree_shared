@@ -34,6 +34,11 @@ namespace :spree_shared do
           t.save
         end
 
+        #enable base theme(s)
+        Spraycan::Theme.where(:applies_to => 'base').each do |base|
+          base.update_attribute(:active, true)
+        end
+
         Spree::MailMethod.create(:environment => "production", :active => false)
         pm = Spree::PaymentMethod.create(:name => "Credit Card", :environment => "production")
         pm.type = "Spree::Gateway::Bogus"
