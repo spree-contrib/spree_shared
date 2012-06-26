@@ -29,11 +29,6 @@ module Apartment
 
             #reset Mail settings
             Spree::Core::MailSettings.init
-
-            #load the theme overrides from the database on each request
-            #this is required in case the are changed on another worker / process
-            #could be optimized?
-            Spraycan::Engine.initialize_themes
           rescue Exception => e
             Rails.logger.error "  Stopped request due to: #{e.message}"
 
