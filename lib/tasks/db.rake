@@ -23,22 +23,6 @@ namespace :spree_shared do
         Rake::Task["db:seed"].invoke 
         Rake::Task["spree_sample:load"].invoke 
 
-        #import spraycan themes
-        Rake::Task["spraycan:load"].invoke 
-
-        #activate default themes
-        Spraycan::Theme.all.map(&:applies_to).uniq.compact.each do |a|
-          t = Spraycan::Theme.where(:name => 'Default', :applies_to => a).first
-          next unless t
-          t.active = true
-          t.save
-        end
-
-        #enable base theme(s)
-        Spraycan::Theme.where(:applies_to => 'base').each do |base|
-          base.update_attribute(:active, true)
-        end
-
         Spree::MailMethod.create(:environment => "production", :active => false)
         pm = Spree::PaymentMethod.create(:name => "Credit Card", :environment => "production")
         pm.type = "Spree::Gateway::Bogus"
@@ -46,7 +30,6 @@ namespace :spree_shared do
 
         store_name = db_name.humanize.titleize
         Spree::Config.set :site_name => store_name
-
 
         #Need to manually create admin as it's not created by default in production mode
         if Rails.env.production?
