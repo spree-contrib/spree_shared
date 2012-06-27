@@ -9,6 +9,7 @@ namespace :spree_shared do
       #create the database
       puts "Creating database: #{db_name}"
       ActiveRecord::Base.establish_connection #make sure we're talkin' to db
+      ActiveRecord::Base.connection.execute("DROP DATABASE IF EXISTS `#{db_name}`")
       Apartment::Database.create db_name
 
       #seed and sample it
