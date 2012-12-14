@@ -9,7 +9,7 @@ namespace :spree_shared do
       #create the database
       puts "Creating database: #{db_name}"
       ActiveRecord::Base.establish_connection #make sure we're talkin' to db
-      ActiveRecord::Base.connection.execute("DROP DATABASE IF EXISTS `#{db_name}`")
+      ActiveRecord::Base.connection.execute("DROP SCHEMA IF EXISTS #{db_name} CASCADE")
       Apartment::Database.create db_name
 
       #seed and sample it
@@ -24,7 +24,10 @@ namespace :spree_shared do
         Rake::Task["db:seed"].invoke 
         Rake::Task["spree_sample:load"].invoke 
 
-        Spree::MailMethod.create(:environment => "production", :active => false)
+        mm = Spree::MailMethod.create(:environment => "production")
+        mm.active = false
+        mm.save!
+
         pm = Spree::PaymentMethod.create(:name => "Credit Card", :environment => "production")
         pm.type = "Spree::Gateway::Bogus"
         pm.save

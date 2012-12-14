@@ -8,22 +8,28 @@ Uses request subdomain to swap database, view paths, Rails cache (preferences), 
 Installation
 ============
 
-1. Tweak `config/database.yml` to use MySQL, and dummy master database.
+1. Tweak `config/database.yml` to use Postgresql, and dummy master database.
 
 2. Add the following line to host `applicaiton.rb` 
 
+````ruby
     config.middleware.use 'Apartment::Elevators::Subdomain'
+````
 
 3. Create an initializer `config/apartment.rb` with the following:
 
+````ruby
     Apartment.configure do |config|
       config.prepend_environment = false
       config.database_names = ['store1'] #ahh do we need this?
     end
+````
 
 4. Set namespace for cache engine in `development.rb` and/or `production.rb`
 
+````ruby
     config.cache_store = :memory_store, { :namespace => lambda { ENV['RAILS_CACHE_ID'] } }
+````
 
 
 
