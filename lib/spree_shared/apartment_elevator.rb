@@ -17,6 +17,8 @@ module Apartment
         if database
           #switch database
           begin
+            database.gsub! '-', '_'
+
             Apartment::Database.switch database
 
             Rails.logger.error "  Using database '#{database}'"

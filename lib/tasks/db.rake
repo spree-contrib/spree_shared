@@ -6,10 +6,13 @@ namespace :spree_shared do
     else
       db_name = args[:db_name]
 
+      #convert name to postgres friendly name
+      db_name.gsub!('-','_')
+
       #create the database
       puts "Creating database: #{db_name}"
       ActiveRecord::Base.establish_connection #make sure we're talkin' to db
-      ActiveRecord::Base.connection.execute("DROP SCHEMA IF EXISTS \"#{db_name}\" CASCADE")
+      ActiveRecord::Base.connection.execute("DROP SCHEMA IF EXISTS #{db_name} CASCADE")
       Apartment::Database.create db_name
 
       #seed and sample it
