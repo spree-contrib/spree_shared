@@ -41,4 +41,4 @@ Be sure to add the rspec-rails gem to your Gemfile and then create a dummy test 
     $ bundle exec rake test_app
     $ bundle exec rspec spec
 
-Copyright (c) 2011 [name of extension creator], released under the New BSD License
+Copyright (c) 2013 Spree Commerce, released under the New BSD License
