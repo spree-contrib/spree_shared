@@ -10,7 +10,7 @@ Installation
 
 1. Tweak `config/database.yml` to use Postgresql, and dummy master database.
 
-2. Add the following line to host `applicaiton.rb` 
+2. Add the following line to host `application.rb`
 
 ````ruby
     config.middleware.use 'Apartment::Elevators::Subdomain'
