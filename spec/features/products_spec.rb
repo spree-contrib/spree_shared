@@ -16,14 +16,13 @@ feature 'Products' do
   end
 
   scenario "Store A's products are only visible to Store A" do
-    binding.pry
-    visit spree.products_path(:subdomain => store_a.subdomain)
+    visit spree.products_url(:subdomain => store_a.subdomain)
     page.should have_content("Store A's Product")
     page.should_not have_content("Store B's Product")
   end
 
   scenario "Store B's products are only visible to Store B" do
-    visit spree.products_path(:subdomain => store_b.subdomain)
+    visit spree.products_url(:subdomain => store_b.subdomain)
     page.should have_content("Store B's Product")
     page.should_not have_content("Store A's Product")
   end

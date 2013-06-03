@@ -34,8 +34,7 @@ module Spree
 
             #fallback
             ENV['RAILS_CACHE_ID'] = ""
-            Apartment::Database.current_database = nil
-            ActiveRecord::Base.establish_connection
+            Apartment::Database.reset
             return ahh_no
           end
 
@@ -51,7 +50,7 @@ module Spree
       end
 
       def ahh_no
-        [200, {"Content-type" => "text/html"}, "Ahh No."]
+        [200, {"Content-type" => "text/html"}, ["Ahh No."]]
       end
 
     end

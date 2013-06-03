@@ -227,5 +227,6 @@ DEPENDENCIES
   ffaker (= 1.16.1)
   pry
   rspec-rails (= 2.13.2)
+  spree_api (~> 2.0.0)
   spree_frontend (~> 2.0.0)
   spree_shared!
