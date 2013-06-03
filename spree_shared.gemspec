@@ -19,7 +19,13 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'spree_core', '~> 2.0.0'
   s.add_dependency 'apartment', '0.21.1'
-  s.add_development_dependency 'rspec-rails'
-  s.add_development_dependency 'pg'
+  s.add_dependency 'pg'
+  s.add_development_dependency 'rspec-rails', '2.13.2'
+  s.add_development_dependency 'capybara', '2.1.0'
+  s.add_development_dependency 'factory_girl', '4.2.0'
+  s.add_development_dependency 'ffaker', '1.16.1'
+  s.add_development_dependency 'pry'
+
+  s.add_development_dependency 'spree_frontend', '~> 2.0.0'
 end
 

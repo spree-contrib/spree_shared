@@ -1,8 +1,6 @@
-module Apartment
-  module Elevators
-    # Provides a rack based db switching solution based on subdomains
-    # Assumes that database name should match subdomain
-    class Subdomain
+module Spree
+  module Shared
+    class Switcher
 
       def initialize(app)
         @app = app

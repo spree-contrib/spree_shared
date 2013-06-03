@@ -28,3 +28,9 @@ task :test_app do
   ENV['DB'] = "postgres"
   Rake::Task['common:test_app'].invoke
 end
+
+dummy_rakefile = File.expand_path("../spec/dummy/Rakefile", __FILE__)
+if File.exist?(dummy_rakefile)
+  APP_RAKEFILE = dummy_rakefile
+  load 'rails/tasks/engine.rake'
+end

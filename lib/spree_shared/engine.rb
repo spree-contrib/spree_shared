@@ -1,5 +1,8 @@
+require 'spree_shared'
+
 module SpreeShared
   class Engine < Rails::Engine
+    isolate_namespace Spree
     engine_name 'spree_shared'
 
     config.autoload_paths += %W(#{config.root}/lib)
