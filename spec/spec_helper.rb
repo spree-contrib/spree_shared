@@ -9,6 +9,7 @@ require 'rspec/rails'
 require 'capybara/rspec'
 require 'factory_girl'
 require 'ffaker'
+require 'database_cleaner'
 
 require 'spree/testing_support/factories'
 require 'spree/testing_support/factories/store_factory'
@@ -33,5 +34,21 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
+
+  config.after(:each) do
+    Apartment::Database.reset
+    DatabaseCleaner.clean
+    connection = ActiveRecord::Base.connection.raw_connection
+    schemas = connection.query(%Q{
+      SELECT 'drop schema ' || nspname || ' cascade;'
+      from pg_namespace 
+      where nspname != 'public' 
+      AND nspname NOT LIKE 'pg_%'
+      AND nspname != 'information_schema';
+    })
+    schemas.each do |query|
+      connection.query(query.values.first)
+    end
+  end
 end

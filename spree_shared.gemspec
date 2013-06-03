@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
 
   s.has_rdoc = false
 
-  s.add_dependency 'spree_core', '~> 2.0.0'
   s.add_dependency 'apartment', '0.21.1'
   s.add_dependency 'pg'
   s.add_development_dependency 'rspec-rails', '2.13.2'
@@ -25,8 +24,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'factory_girl', '4.2.0'
   s.add_development_dependency 'ffaker', '1.16.1'
   s.add_development_dependency 'pry'
+  s.add_development_dependency 'database_cleaner', '1.0.1'
 
-  s.add_development_dependency 'spree_frontend', '~> 2.0.0'
-  s.add_development_dependency 'spree_api', '~> 2.0.0'
+  s.add_development_dependency 'spree_frontend', '~> 2.1.0.beta'
+  s.add_development_dependency 'spree_api', '~> 2.1.0.beta'
 end
 
