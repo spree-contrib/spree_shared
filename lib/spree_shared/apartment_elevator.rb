@@ -11,7 +11,7 @@ module Apartment
       def call(env)
         request = ActionDispatch::Request.new(env)
 
-        Rails.logger.error "  Requested URL: #{request.url}"
+        Rails.logger.info "  Requested URL: #{request.url}"
         database = subdomain(request)
 
         if database
@@ -21,7 +21,7 @@ module Apartment
 
             Apartment::Database.switch database
 
-            Rails.logger.error "  Using database '#{database}'"
+            Rails.logger.info "  Using database '#{database}'"
 
             #set image location
             Spree::Image.change_paths database
