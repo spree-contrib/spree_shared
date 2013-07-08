@@ -27,10 +27,6 @@ namespace :spree_shared do
         Rake::Task["db:seed"].invoke 
         Rake::Task["spree_sample:load"].invoke 
 
-        mm = Spree::MailMethod.create(:environment => "production")
-        mm.active = false
-        mm.save!
-
         pm = Spree::PaymentMethod.create(:name => "Credit Card", :environment => "production")
         pm.type = "Spree::Gateway::Bogus"
         pm.save
