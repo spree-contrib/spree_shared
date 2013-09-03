@@ -53,7 +53,7 @@ module Apartment
       end
 
       def ahh_no
-        [200, {"Content-type" => "text/html"}, "Ahh No."]
+        [200, {"Content-type" => "text/html"}, ["Ahh No."]]
       end
 
     end
