@@ -49,7 +49,7 @@ module Apartment
       end
 
       def subdomain(request)
-        request.subdomain.present? && request.subdomain || nil
+        request.subdomain.to_s.split('.').first
       end
 
       def ahh_no
