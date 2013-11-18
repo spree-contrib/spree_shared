@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
   s.has_rdoc = false
 
-  s.add_dependency 'spree_core', '>= 1.0.0'
+  s.add_dependency 'spree_core', '~> 2.1.0'
   # s.add_dependency 'apartment', '>= 0.13.0' #turn back on once apartment offically supports rails 3.1.x
   s.add_development_dependency 'rspec-rails'
 end
