@@ -27,10 +27,6 @@ namespace :spree_shared do
         Rake::Task["db:seed"].invoke 
         Rake::Task["spree_sample:load"].invoke 
 
-        pm = Spree::PaymentMethod.create(:name => "Credit Card", :environment => "production")
-        pm.type = "Spree::Gateway::Bogus"
-        pm.save
-
         store_name = db_name.humanize.titleize
         Spree::Config.set :site_name => store_name
 
@@ -65,6 +61,34 @@ namespace :spree_shared do
         end
         products[0..12].each do |product|
           product.taxons << latest
+        end
+
+
+        # create payments based on the totals since they can't be known in YAML (quantities are random)
+        method = Spree::PaymentMethod.where(:name => 'Credit Card', :active => true, :environment => 'production').first
+
+        # Hack the current method so we're able to return a gateway without a RAILS_ENV
+        Spree::Gateway.class_eval do
+          def self.current
+            Spree::Gateway::Bogus.new
+          end
+        end
+
+        # This table was previously called spree_creditcards, and older migrations
+        # reference it as such. Make it explicit here that this table has been renamed.
+        Spree::CreditCard.table_name = 'spree_credit_cards'
+
+        creditcard = Spree::CreditCard.create(:cc_type => 'visa', :month => 12, :year => 2014, :last_digits => '1111',
+                                                :first_name => 'Sean', :last_name => 'Schofield',
+                                                :gateway_customer_profile_id => 'BGS-1234')
+        Spree::Order.all.each_with_index do |order, index|
+          order.update!
+          order.payments.delete_all
+          payment = order.payments.create!(:amount => order.total, :source => creditcard.clone, :payment_method => method)
+          payment.update_attributes_without_callbacks({
+            :state => 'pending',
+            :response_code => '12345'
+          })
         end
 
         puts "Bootstrap completed successfully"
