@@ -2,13 +2,13 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_shared'
-  s.version     = '0.70.1'
-  s.summary     = 'Add gem summary here'
-  s.description = 'Add (optional) gem description here'
-  s.required_ruby_version = '>= 1.8.7'
+  s.version     = '0.9.0'
+  s.summary     = 'Adds multi-tenancy to a Spree application.'
+  s.description = 'Adds multi-tenancy to a Spree application using the Apartment gem.'
+  s.required_ruby_version = '>= 1.9.2'
 
   s.author            = 'Brian D. Quinn'
-  s.email             = 'brian@railsdog.com'
+  s.email             = 'brian@spreecommerce.com'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.has_rdoc = false
 
   s.add_dependency 'spree_core', '~> 2.1'
-  # s.add_dependency 'apartment', '>= 0.13.0' #turn back on once apartment offically supports rails 3.1.x
+  s.add_dependency 'apartment', '>= 0.24.0'
   s.add_development_dependency 'rspec-rails'
 end
 

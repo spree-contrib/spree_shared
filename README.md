@@ -21,11 +21,26 @@ Installation
 ````ruby
     Apartment.configure do |config|
       config.prepend_environment = false
-      config.database_names = ['store1'] #ahh do we need this?
+      config.tenant_names = ['store1', 'store2']
     end
 ````
 
-4. Set namespace for cache engine in `development.rb` and/or `production.rb`
+4. Bootstrap sample stores
+
+````bash
+    bundle exec rails spree_shared:boostrap['store1']
+    bundle exec rails spree_shared:boostrap['store2']
+````
+
+5. Setup local subdomains for sample stores, as spree_shared uses by default subdomain routing you need to confirm some local domains such as:
+
+store1.spree.dev
+store2.spree.dev
+
+This can be done using Pow or editing your local /etc/hosts file.
+
+
+6. Set namespace for cache engine in `development.rb` and/or `production.rb`
 
 ````ruby
     config.cache_store = :memory_store, { :namespace => lambda { ENV['RAILS_CACHE_ID'] } }

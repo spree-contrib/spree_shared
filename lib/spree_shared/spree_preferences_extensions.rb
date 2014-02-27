@@ -14,13 +14,13 @@ require Spree::Core::Engine.root.join "app/models/spree/preference"
 
 Spree::Preferences::Configuration.module_eval do
   def preference_cache_key(name)
-    [Apartment::Database.current_database, self.class.name, name].compact.join('::').underscore
+    [Apartment::Database.current_tenant, self.class.name, name].compact.join('::').underscore
   end
 end
 
 Spree::Preferences::Preferable.module_eval do
   def preference_cache_key(name)
-    [Apartment::Database.current_database, self.class.name, name, (try(:id) || :new)].compact.join('::').underscore
+    [Apartment::Database.current_tenant, self.class.name, name, (try(:id) || :new)].compact.join('::').underscore
   end
 end
 
@@ -39,11 +39,11 @@ Spree::Preferences::StoreInstance.class_eval do
       return unless should_persist?
       @loaded_from ||= []
 
-      unless @loaded_from.include? Apartment::Database.current_database
+      unless @loaded_from.include? Apartment::Database.current_tenant
         Spree::Preference.all.each do |p|
            @cache.write(p.key, p.value)
         end
-        @loaded_from << Apartment::Database.current_database
+        @loaded_from << Apartment::Database.current_tenant
       end
     end
 end

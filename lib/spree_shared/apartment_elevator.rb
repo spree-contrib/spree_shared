@@ -36,7 +36,7 @@ module Apartment
 
             #fallback
             ENV['RAILS_CACHE_ID'] = ""
-            Apartment::Database.current_database = nil
+            Apartment::Database.switch nil
             ActiveRecord::Base.establish_connection
             return ahh_no
           end
