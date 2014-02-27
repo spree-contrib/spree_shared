@@ -28,8 +28,8 @@ Installation
 4. Bootstrap sample stores
 
 ````bash
-    bundle exec rails spree_shared:boostrap['store1']
-    bundle exec rails spree_shared:boostrap['store2']
+    bundle exec rake spree_shared:bootstrap['store1']
+    bundle exec rake spree_shared:bootstrap['store2']
 ````
 
 5. Setup local subdomains for sample stores, as spree_shared uses by default subdomain routing you need to confirm some local domains such as:
