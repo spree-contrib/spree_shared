@@ -24,7 +24,7 @@ module Apartment
             Rails.logger.error "  Using database '#{database}'"
 
             #set image location
-            Spree::Image.change_paths database
+            # Spree::Image.change_paths database
 
             #namespace cache keys
             ENV['RAILS_CACHE_ID']= database
