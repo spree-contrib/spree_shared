@@ -9,18 +9,20 @@ require Spree::Core::Engine.root.join "app/models/spree/preferences/preferable"
 require Spree::Core::Engine.root.join "app/models/spree/preferences/preferable_class_methods"
 require Spree::Core::Engine.root.join "app/models/spree/preferences/configuration"
 require Spree::Core::Engine.root.join "app/models/spree/preferences/store"
+
+require Spree::Core::Engine.root.join "app/models/spree/base"
 require Spree::Core::Engine.root.join "app/models/spree/preference"
 
 
 Spree::Preferences::Configuration.module_eval do
   def preference_cache_key(name)
-    [Apartment::Database.current_tenant, self.class.name, name].compact.join('::').underscore
+    [Apartment::Tenant.current_tenant, self.class.name, name].compact.join('::').underscore
   end
 end
 
 Spree::Preferences::Preferable.module_eval do
   def preference_cache_key(name)
-    [Apartment::Database.current_tenant, self.class.name, name, (try(:id) || :new)].compact.join('::').underscore
+    [Apartment::Tenant.current_tenant, self.class.name, name, (try(:id) || :new)].compact.join('::').underscore
   end
 end
 
@@ -39,11 +41,11 @@ Spree::Preferences::StoreInstance.class_eval do
       return unless should_persist?
       @loaded_from ||= []
 
-      unless @loaded_from.include? Apartment::Database.current_tenant
+      unless @loaded_from.include? Apartment::Tenant.current_tenant
         Spree::Preference.all.each do |p|
            @cache.write(p.key, p.value)
         end
-        @loaded_from << Apartment::Database.current_tenant
+        @loaded_from << Apartment::Tenant.current_tenant
       end
     end
 end

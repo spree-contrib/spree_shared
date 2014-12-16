@@ -17,8 +17,8 @@ Gem::Specification.new do |s|
 
   s.has_rdoc = false
 
-  s.add_dependency 'spree_core', '~> 2.1'
-  s.add_dependency 'apartment', '>= 0.24.0'
+  s.add_dependency 'spree_core', '~> 2.3'
+  s.add_dependency 'apartment', '~> 0.25.2'
   s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'sqlite3'
 end
-

@@ -13,19 +13,19 @@ namespace :spree_shared do
       puts "Creating database: #{db_name}"
       ActiveRecord::Base.establish_connection #make sure we're talkin' to db
       ActiveRecord::Base.connection.execute("DROP SCHEMA IF EXISTS #{db_name} CASCADE")
-      Apartment::Database.create db_name
+      Apartment::Tenant.create db_name
 
       #seed and sample it
       puts "Loading seed & sample data into database: #{db_name}"
-      ENV['RAILS_CACHE_ID'] = db_name 
-      Apartment::Database.process(db_name) do
+      ENV['RAILS_CACHE_ID'] = db_name
+      Apartment::Tenant.process(db_name) do
         Spree::Image.change_paths 'sandbox'
 
         ENV['AUTO_ACCEPT'] = 'true'
         ENV['SKIP_NAG'] = 'yes'
 
-        Rake::Task["db:seed"].invoke 
-        Rake::Task["spree_sample:load"].invoke 
+        Rake::Task["db:seed"].invoke
+        Rake::Task["spree_sample:load"].invoke
 
         Spree::Image.change_paths db_name
 

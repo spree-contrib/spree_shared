@@ -19,7 +19,7 @@ module Apartment
           begin
             database.gsub! '-', '_'
 
-            Apartment::Database.switch database
+            Apartment::Tenant.switch database
 
             Rails.logger.error "  Using database '#{database}'"
 
@@ -36,7 +36,7 @@ module Apartment
 
             #fallback
             ENV['RAILS_CACHE_ID'] = ""
-            Apartment::Database.switch nil
+            Apartment::Tenant.switch nil
             ActiveRecord::Base.establish_connection
             return ahh_no
           end
@@ -59,4 +59,3 @@ module Apartment
     end
   end
 end
-
