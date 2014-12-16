@@ -28,9 +28,6 @@ module Apartment
 
             #namespace cache keys
             ENV['RAILS_CACHE_ID']= database
-
-            #reset Mail settings
-            Spree::Core::MailSettings.init
           rescue Exception => e
             Rails.logger.error "  Stopped request due to: #{e.message}"
 
