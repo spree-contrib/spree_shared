@@ -30,7 +30,6 @@ namespace :spree_shared do
         Spree::Image.change_paths db_name
 
         store_name = db_name.humanize.titleize
-        Spree::Config.set :site_name => store_name
 
         #Need to manually create admin as it's not created by default in production mode
         if Rails.env.production?
