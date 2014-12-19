@@ -1,7 +1,6 @@
 # Ugly hack until perferences is extracted to it's own gem
 module Spree
   module Preferences
-
   end
 end
 
@@ -12,20 +11,16 @@ require Spree::Core::Engine.root.join "app/models/spree/preferences/store"
 
 require Spree::Core::Engine.root.join "app/models/spree/base"
 require Spree::Core::Engine.root.join "app/models/spree/preference"
+require Spree::Core::Engine.root.join "app/models/spree/preferences/scoped_store"
 
-
-Spree::Preferences::Configuration.module_eval do
-  def preference_cache_key(name)
-    [Apartment::Tenant.current_tenant, self.class.name, name].compact.join('::').underscore
-  end
+Spree::Preferences::ScopedStore.class_eval do
+  private
+    # hack hack hack ..
+    # aka ENV['RAILS_CACHE_ID'] on a Spree default install
+    def rails_cache_id
+      Apartment::Tenant.current_tenant
+    end
 end
-
-Spree::Preferences::Preferable.module_eval do
-  def preference_cache_key(name)
-    [Apartment::Tenant.current_tenant, self.class.name, name, (try(:id) || :new)].compact.join('::').underscore
-  end
-end
-
 
 Spree::Preferences::StoreInstance.class_eval do
   alias_method :exist_without_spree_shared?, :exist?
