@@ -1,11 +1,15 @@
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
 
-
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 
+# switch apartment adapter directory to dummy app
+Thread.current[:apartment_adapter].instance_variable_set("@default_dir", File.expand_path("../dummy/db",  __FILE__))
 
+require 'spree_shared'
 require 'rspec/rails'
+require 'apartment'
+require 'pry'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
