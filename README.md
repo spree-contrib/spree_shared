@@ -93,12 +93,9 @@ Testing
 From this extension directory just run following commands:
 
 ````bash
-    $ export GEM_TESTING=1
+    $ bundle
     $ bundle exec rake test_app
-    $ cd spec/dummy
-    $ bundle exec rake db:migrate RAILS_ENV=development
-    $ cd ../..
     $ bundle exec rspec spec
 ````
 
-Copyright (c) 2011 [name of extension creator], released under the New BSD License
+Copyright (c) 2011 Spree Commerce Inc, released under the New BSD License
