@@ -1,9 +1,11 @@
 #Makes image part db specific
 module Spree
   Image.class_eval do
-    def self.change_paths(database)
-      Image.attachment_definitions[:attachment][:path] = ":rails_root/public/spree/#{database}/products/:id/:style/:basename.:extension"
-      Image.attachment_definitions[:attachment][:url] = "/spree/#{database}/products/:id/:style/:basename.:extension"
+    cattr_accessor :tenant_proc, instance_writer: false, instance_reader: false
+    self.tenant_proc = -> { Apartment::Tenant.current_tenant }
+
+    def tenant
+      self.class.tenant_proc.call
     end
   end
 end
