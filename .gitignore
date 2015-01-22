@@ -9,3 +9,5 @@ nbproject
 *.swp
 spec/dummy
 Gemfile.lock
+.ruby-gemset
+.ruby-version
