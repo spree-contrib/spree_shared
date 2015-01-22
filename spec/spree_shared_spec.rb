@@ -6,14 +6,14 @@ describe SpreeShared do
 
   let(:app) { ->(env) { [200, env, "app"] } }
 
-  let :middleware do
+  let(:middleware) do
     Apartment::Elevators::Subdomain.new(app)
   end
 
-  let (:prepare_db) do
+  let(:prepare_db) do
     begin
       Apartment::Tenant.switch("tenant271")
-    rescue Apartment::DatabaseNotFound
+    rescue Apartment::TenantNotFound
       puts "creating database tenant271"
       Apartment::Tenant.create("tenant271")
       retry
@@ -63,7 +63,7 @@ describe SpreeShared do
     end
   end
 
-  def env_for url, opts={}
+  def env_for(url, opts = {})
     Rack::MockRequest.env_for(url, opts)
   end
 end
