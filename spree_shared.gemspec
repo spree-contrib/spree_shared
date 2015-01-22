@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.version     = '0.9.1'
   s.summary     = 'Adds multi-tenancy to a Spree application.'
   s.description = 'Adds multi-tenancy to a Spree application using the Apartment gem.'
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.1.0'
 
   s.author            = 'Brian D. Quinn'
   s.email             = 'brian@spreecommerce.com'
