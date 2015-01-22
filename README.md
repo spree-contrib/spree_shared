@@ -1,101 +1,113 @@
-Spree Shared
-============
+# Spree Shared
+
+[![Build Status](https://travis-ci.org/spree-contrib/spree_shared.svg?branch=master)](https://travis-ci.org/spree-contrib/spree_shared)
+[![Code Climate](https://codeclimate.com/github/spree-contrib/spree_shared/badges/gpa.svg)](https://codeclimate.com/github/spree-contrib/spree_shared)
 
 Multiple stores using a single Spree application instance.
 
 Uses request subdomain to swap database, Rails cache (preferences), image paths.
 
-Installation
-============
+---
 
-1. Make sure your `config/database.yml` has valid db connection.
+### Installation
 
-2. Create an initializer `config/initializers/apartment.rb` with the following command:
+Add to your `Gemfile`:
 
-````shell
-    bundle exec rails generate apartment:install
-````
+```ruby
+gem 'spree_shared', github: 'spree-contrib/spree_shared', branch: 'master'
+```
 
-   search for following line:
+Make sure your `config/database.yml` has valid db connection.
 
-````ruby
-    Apartment.configure do |config|
-    ...
-      # supply list of database names for migrations to run on
-      config.tenant_names = lambda{ ToDo_Tenant_Or_User_Model.pluck :database }
-    end
-````
+Create an initializer `config/initializers/apartment.rb` with the following command:
 
-   and change it to include two sample subdomains:
+```bash
+bundle exec rails generate apartment:install
+```
 
-````ruby
-    Apartment.configure do |config|
-      ...
-      config.tenant_names = ['store1', 'store2']
-    end
-````
+Search for following line:
 
-3. Add the following line to host `application.rb`
+```ruby
+Apartment.configure do |config|
+  ...
+  # supply list of database names for migrations to run on
+  config.tenant_names = lambda { ToDo_Tenant_Or_User_Model.pluck :database }
+end
+```
 
-````ruby
-    config.middleware.use 'Apartment::Elevators::Subdomain'
-````
+And change it to include two sample subdomains:
 
-4. Change file paths and urls by adding to `config/initializers/spree.rb` following:
+```ruby
+Apartment.configure do |config|
+  ...
+  config.tenant_names = %w(store1 store2)
+end
+```
 
-````ruby
-    Spree::Image.attachment_definitions[:attachment][:url] = "/spree/products/:tenant/:id/:style/:basename.:extension"
-    Spree::Image.attachment_definitions[:attachment][:path] = ":rails_root/public/spree/products/:tenant/:id/:style/:basename.:extension"
-````
+Add the following line to host `application.rb`
 
-   then allow Paperclip to access tenant from Spree::Image by adding following to Spree initializer:
+```ruby
+config.middleware.use 'Apartment::Elevators::Subdomain'
+```
 
-````ruby
-    Paperclip.interpolates :tenant do |attachment, style|
-      attachment.instance.tenant
-    end
-````
+Change file paths and urls by adding to `config/initializers/spree.rb` following:
 
-   By default tenant will resolve to `Apartment::Tenant.current_tenant` but you can change it -
-   eg. suppose you use databases like tenant_12345 and only want tenant id in file path,
-   then add following line to `config/initializers/apartment.rb`
+```ruby
+Spree::Image.attachment_definitions[:attachment][:url] = '/spree/products/:tenant/:id/:style/:basename.:extension'
+Spree::Image.attachment_definitions[:attachment][:path] = ':rails_root/public/spree/products/:tenant/:id/:style/:basename.:extension'
+```
 
-````ruby
-    Spree::Image.tenant_proc = -> { Apartment::Tenant.current_tenant.match(/(\d+)/)[1] }
-````
+Then allow Paperclip to access tenant from Spree::Image by adding following to Spree initializer:
 
-5. Bootstrap sample stores
+```ruby
+Paperclip.interpolates :tenant do |attachment, _style|
+  attachment.instance.tenant
+end
+```
 
-````bash
-    bundle exec rake spree_shared:bootstrap['store1']
-    bundle exec rake spree_shared:bootstrap['store2']
-````
+By default tenant will resolve to `Apartment::Tenant.current_tenant` but you can change it - eg. suppose you use databases like tenant_12345 and only want tenant id in file path, then add following line to `config/initializers/apartment.rb`
 
-6. Setup local subdomains for sample stores, as spree_shared uses by default subdomain routing you need to confirm some local domains such as:
+```ruby
+Spree::Image.tenant_proc = -> { Apartment::Tenant.current_tenant.match(/(\d+)/)[1] }
+```
 
-store1.spree.dev
-store2.spree.dev
+Bootstrap sample stores:
 
-This can be done using Pow or editing your local /etc/hosts file.
+```bash
+bundle exec rake spree_shared:bootstrap['store1']
+bundle exec rake spree_shared:bootstrap['store2']
+```
 
+Setup local subdomains for sample stores, as spree_shared uses by default subdomain routing you need to confirm some local domains such as:
 
-7. Set namespace for cache engine in `development.rb` and/or `production.rb`
+    store1.spree.dev
+    store2.spree.dev
 
-````ruby
-    config.cache_store = :memory_store, { :namespace => lambda { Apartment::Tenant.current_tenant } }
-````
+This can be done using [Pow][4] or editing your local `/etc/hosts` file.
 
+Set namespace for cache engine in `development.rb` and/or `production.rb`
 
+```ruby
+config.cache_store = :memory_store, { namespace: lambda { Apartment::Tenant.current_tenant } }
+```
 
-Testing
--------
+---
+
+### Testing
 
 From this extension directory just run following commands:
 
-````bash
-    $ bundle
-    $ bundle exec rake test_app
-    $ bundle exec rspec spec
-````
+```bash
+$ bundle
+$ bundle exec rake test_app
+$ bundle exec rspec spec
+```
 
-Copyright (c) 2011 Spree Commerce Inc, released under the New BSD License
+---
+
+Copyright (c) 2013-2015 [Spree Commerce Inc][1], and other [contributors][2], released under the [New BSD License][3]
+
+[1]: https://github.com/spree/spree
+[2]: https://github.com/spree-contrib/spree_shared/graphs/contributors
+[3]: https://github.com/spree-contrib/spree_shared/blob/master/LICENSE.md
+[4]: http://pow.cx
