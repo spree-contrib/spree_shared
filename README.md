@@ -35,7 +35,7 @@ Installation
     end
 ````
 
-3. Add the following line to host `applicaiton.rb`
+3. Add the following line to host `application.rb`
 
 ````ruby
     config.middleware.use 'Apartment::Elevators::Subdomain'
