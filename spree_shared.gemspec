@@ -5,13 +5,13 @@ Gem::Specification.new do |s|
   s.version     = '0.9.1'
   s.summary     = 'Adds multi-tenancy to a Spree application.'
   s.description = 'Adds multi-tenancy to a Spree application using the Apartment gem.'
-  s.required_ruby_version = '>= 1.9.2'
+  s.required_ruby_version = '>= 1.9.3'
 
   s.author            = 'Brian D. Quinn'
   s.email             = 'brian@spreecommerce.com'
 
   s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.test_files    = `git ls-files -- spec/*`.split("\n")
   s.require_path = 'lib'
   s.requirements << 'none'
 
