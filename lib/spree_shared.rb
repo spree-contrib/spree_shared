@@ -1,4 +1,5 @@
 require 'spree_core'
 require 'spree_shared/engine'
+require 'spree_shared/version'
 require 'apartment'
 require 'spree_shared/spree_preferences_extensions'
