@@ -93,15 +93,9 @@ config.cache_store = :memory_store, { namespace: lambda { Apartment::Tenant.curr
 
 ---
 
-### Testing
+## Contributing
 
-From this extension directory just run following commands:
-
-```bash
-$ bundle
-$ bundle exec rake test_app
-$ bundle exec rspec spec
-```
+See corresponding [guidelines][5]
 
 ---
 
@@ -111,3 +105,4 @@ Copyright (c) 2013-2015 [Spree Commerce Inc][1], and other [contributors][2], re
 [2]: https://github.com/spree-contrib/spree_shared/graphs/contributors
 [3]: https://github.com/spree-contrib/spree_shared/blob/master/LICENSE.md
 [4]: http://pow.cx
+[5]: https://github.com/spree-contrib/spree_shared/blob/master/CONTRIBUTING.md
