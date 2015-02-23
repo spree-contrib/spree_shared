@@ -19,15 +19,11 @@ namespace :spree_shared do
       puts "Loading seed & sample data into database: #{db_name}"
       ENV['RAILS_CACHE_ID'] = db_name
       Apartment::Tenant.process(db_name) do
-        Spree::Image.change_paths 'sandbox'
-
         ENV['AUTO_ACCEPT'] = 'true'
         ENV['SKIP_NAG'] = 'yes'
 
         Rake::Task["db:seed"].invoke
         Rake::Task["spree_sample:load"].invoke
-
-        Spree::Image.change_paths db_name
 
         store_name = db_name.humanize.titleize
 
