@@ -7,6 +7,10 @@ module SpreeShared
     config.autoload_paths += %W(#{config.root}/lib)
 
     def self.activate
+      unless defined? Spree::Preferences::StoreInstance
+        Spree::Core::Engine.instance.eager_load!
+      end
+
       Dir.glob(%W(#{config.root}/app/**/*_decorator*.rb)) do |c|
         Rails.application.config.cache_classes ? require(c) : load(c)
       end
