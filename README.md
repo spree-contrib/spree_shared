@@ -91,6 +91,23 @@ Set namespace for cache engine in `development.rb` and/or `production.rb`
 config.cache_store = :memory_store, { namespace: lambda { Apartment::Tenant.current_tenant } }
 ```
 
+### Setting Store Preferences
+
+If you'd like to set preferences for every store you can do so in your `config/initializers/spree.rb` initializer by iterating over each store, and then setting it's preference.  Since this is multi-tenant with each store having their own database the usual Spree.config block can't be used as it only sets the preference for a single database.
+
+Here is an example:
+
+```
+Apartment.tenant_names.each do |store|
+  begin
+    Apartment::Database.switch store
+    Spree::Config.auto_capture = true
+  rescue
+    puts "  Failed to set up config for store '#{store}'"
+  end
+end
+```
+
 ---
 
 ## Contributing
