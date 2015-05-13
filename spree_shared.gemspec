@@ -22,8 +22,8 @@ Gem::Specification.new do |s|
 
   s.has_rdoc = false
 
-  s.add_runtime_dependency 'spree_core', '~> 3.0.0.rc'
-  s.add_runtime_dependency 'spree_sample', '~> 3.0.0.rc'
+  s.add_runtime_dependency 'spree_core', '~> 3.0.0'
+  s.add_runtime_dependency 'spree_sample', '~> 3.0.0'
   s.add_runtime_dependency 'apartment', '~> 0.26.1'
 
   s.add_development_dependency 'rspec-rails'
