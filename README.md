@@ -100,7 +100,7 @@ Here is an example:
 ```
 Apartment.tenant_names.each do |store|
   begin
-    Apartment::Database.switch store
+    Apartment::Tenant.switch store
     Spree::Config.auto_capture = true
   rescue
     puts "  Failed to set up config for store '#{store}'"
