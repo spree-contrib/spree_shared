@@ -9,6 +9,7 @@ require Spree::Core::Engine.root.join "app/models/spree/preferences/preferable_c
 require Spree::Core::Engine.root.join "app/models/spree/preferences/configuration"
 require Spree::Core::Engine.root.join "app/models/spree/preferences/store"
 
+require Spree::Core::Engine.root.join "app/models/concerns/spree/ransackable_attributes"
 require Spree::Core::Engine.root.join "app/models/spree/base"
 require Spree::Core::Engine.root.join "app/models/spree/preference"
 require Spree::Core::Engine.root.join "app/models/spree/preferences/scoped_store"
