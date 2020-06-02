@@ -50,27 +50,6 @@ Add the following line to host `application.rb`
 config.middleware.use 'Apartment::Elevators::Subdomain'
 ```
 
-Change file paths and urls by adding to `config/initializers/spree.rb` following:
-
-```ruby
-Spree::Image.attachment_definitions[:attachment][:url] = '/spree/products/:tenant/:id/:style/:basename.:extension'
-Spree::Image.attachment_definitions[:attachment][:path] = ':rails_root/public/spree/products/:tenant/:id/:style/:basename.:extension'
-```
-
-Then allow Paperclip to access tenant from Spree::Image by adding following to Spree initializer:
-
-```ruby
-Paperclip.interpolates :tenant do |attachment, _style|
-  attachment.instance.tenant
-end
-```
-
-By default tenant will resolve to `Apartment::Tenant.current_tenant` but you can change it - eg. suppose you use databases like tenant_12345 and only want tenant id in file path, then add following line to `config/initializers/apartment.rb`
-
-```ruby
-Spree::Image.tenant_proc = -> { Apartment::Tenant.current_tenant.match(/(\d+)/)[1] }
-```
-
 Bootstrap sample stores:
 
 ```bash
@@ -88,7 +67,7 @@ This can be done using [Pow][4] or editing your local `/etc/hosts` file.
 Set namespace for cache engine in `development.rb` and/or `production.rb`
 
 ```ruby
-config.cache_store = :memory_store, { namespace: lambda { Apartment::Tenant.current_tenant } }
+config.cache_store = :memory_store, { namespace: lambda { Apartment::Tenant.current } }
 ```
 
 ### Setting Store Preferences
@@ -100,7 +79,7 @@ Here is an example:
 ```
 Apartment.tenant_names.each do |store|
   begin
-    Apartment::Tenant.switch store
+    Apartment::Tenant.switch! store
     Spree::Config.auto_capture = true
   rescue
     puts "  Failed to set up config for store '#{store}'"

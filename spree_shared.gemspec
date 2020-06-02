@@ -20,14 +20,9 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.has_rdoc = false
+  s.add_runtime_dependency 'spree_core', '~> 4.0'
+  s.add_runtime_dependency 'spree_sample', '~> 4.0'
+  s.add_runtime_dependency 'ros-apartment', '>= 2.6.0'
 
-
-  s.add_runtime_dependency 'spree_core', '~> 3.1.0.beta'
-  s.add_runtime_dependency 'spree_sample', '~> 3.1.0.beta'
-  s.add_runtime_dependency 'apartment', '~> 0.26.1'
-
-  s.add_development_dependency 'rspec-rails'
-  s.add_development_dependency 'sqlite3'
-  s.add_development_dependency 'pry'
+  s.add_development_dependency 'spree_dev_tools'
 end
