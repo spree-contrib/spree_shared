@@ -3,7 +3,6 @@ class SpreeShared::TenantInitializer
 
   def initialize(db_name)
     @db_name = db_name
-    ENV['RAILS_CACHE_ID'] = db_name
     ENV['AUTO_ACCEPT'] = 'true'
     ENV['SKIP_NAG'] = 'yes'
   end
