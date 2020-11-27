@@ -11,64 +11,51 @@ Uses request subdomain to swap database, Rails cache (preferences), image paths.
 
 ### Installation
 
-Add to your `Gemfile`:
+1. Add to your `Gemfile`:
 
-```ruby
-gem 'spree_shared', github: 'spree-contrib/spree_shared', branch: 'master'
-```
+    ```ruby
+    gem 'spree_shared', github: 'spree-contrib/spree_shared', branch: 'master'
+    ```
 
-Make sure your `config/database.yml` has valid db connection.
+    Make sure your `config/database.yml` has valid db connection.
 
-Create an initializer `config/initializers/apartment.rb` with the following command:
+2. Create `config/initializers/apartment.rb`with the following command:
 
-```bash
-bundle exec rails generate apartment:install
-```
+    ```bash
+    bundle exec rails generate apartment:install
+    ```
 
-Search for following line:
+3. Search for following line inside `config/initializers/apartment.rb`:
 
-```ruby
-Apartment.configure do |config|
-  ...
-  # supply list of database names for migrations to run on
-  config.tenant_names = lambda { ToDo_Tenant_Or_User_Model.pluck :database }
-end
-```
+    ```ruby
+      config.tenant_names = lambda { ToDo_Tenant_Or_User_Model.pluck :database }
+    ```
 
-And change it to include two sample subdomains:
+    And change it to include two sample subdomains:
 
-```ruby
-Apartment.configure do |config|
-  ...
-  config.tenant_names = %w(store1 store2)
-end
-```
+    ```ruby
+      config.tenant_names = %w(store1 store2)
+    ```
 
-Add the following line to host `application.rb`
+4. Bootstrap sample stores:
 
-```ruby
-config.middleware.use 'Apartment::Elevators::Subdomain'
-```
+    ```bash
+    bundle exec rake spree_shared:bootstrap['store1']
+    bundle exec rake spree_shared:bootstrap['store2']
+    ```
 
-Bootstrap sample stores:
+5. Setup local subdomains for sample stores, as spree_shared uses by default subdomain routing you need to confirm some local domains such as:
 
-```bash
-bundle exec rake spree_shared:bootstrap['store1']
-bundle exec rake spree_shared:bootstrap['store2']
-```
+    `store1.spree.dev`
+    `store2.spree.dev`
+    
+    This can be done using [Pow][4] or editing your local `/etc/hosts` file.
 
-Setup local subdomains for sample stores, as spree_shared uses by default subdomain routing you need to confirm some local domains such as:
+6. Set namespace for cache engine in `development.rb` and/or `production.rb`
 
-    store1.spree.dev
-    store2.spree.dev
-
-This can be done using [Pow][4] or editing your local `/etc/hosts` file.
-
-Set namespace for cache engine in `development.rb` and/or `production.rb`
-
-```ruby
-config.cache_store = :memory_store, { namespace: lambda { Apartment::Tenant.current } }
-```
+    ```ruby
+    config.cache_store = :memory_store, { namespace: -> { Apartment::Tenant.current } }
+    ```
 
 ### Setting Store Preferences
 
@@ -77,13 +64,12 @@ If you'd like to set preferences for every store you can do so in your `config/i
 Here is an example:
 
 ```
-Apartment.tenant_names.each do |store|
-  begin
-    Apartment::Tenant.switch! store
-    Spree::Config.auto_capture = true
-  rescue
-    puts "  Failed to set up config for store '#{store}'"
-  end
+require 'spree_shared/tenant_decorator'
+
+Apartment::Tenant.each do |tenant_name| # also each_with_default available
+  Spree::Config.auto_capture = true
+rescue
+  puts "  Failed to set up config for store '#{tenant_name}'"
 end
 ```
 
