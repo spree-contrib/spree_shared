@@ -9,8 +9,13 @@ class SpreeShared::TenantInitializer
 
   def create_database
     ActiveRecord::Base.establish_connection #make sure we're talkin' to db
-    ActiveRecord::Base.connection.execute("DROP SCHEMA IF EXISTS #{db_name} CASCADE")
+    drop_tenant_if_exists
     Apartment::Tenant.create db_name
+  end
+
+  def drop_tenant_if_exists
+    Apartment::Tenant.drop db_name
+  rescue Apartment::TenantNotFound
   end
 
   def load_seeds
