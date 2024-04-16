@@ -1,3 +1,7 @@
+# ⚠️ Deprecation notice ⚠️
+
+Spree supports multi-store scenarios out of the box. The apartment gem, which this gem depends on is not maintained anymore, hence we won't maintain and support this gem anymore.
+
 # Spree Shared
 
 [![Build Status](https://travis-ci.org/spree-contrib/spree_shared.svg?branch=master)](https://travis-ci.org/spree-contrib/spree_shared)
